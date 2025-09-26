@@ -20,14 +20,14 @@ exports.createCampaign = async (req, res) => {
     const newCampaign = new Campaign({
       title,
       message,
-      user: req.user.id, // 👈 Save user from token
+      user: req.user.id, //  Save user from token
     });
 
     await newCampaign.save();
     res.status(201).json(newCampaign);
     console.log("Current user:", req.user);
   } catch (error) {
-    console.error("Error creating campaign:", error.message); // 👈 log error
+    console.error("Error creating campaign:", error.message); //  log error
     res.status(500).json({ msg: "Server Error", error: error.message });
   }
 };
