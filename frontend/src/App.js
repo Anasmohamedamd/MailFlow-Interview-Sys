@@ -6,6 +6,7 @@ import DashBoard from './Pages/DashBoard';
 import Home from './Pages/Home';
 import Campaign from './Pages/Campaign';
 import Contacts from './Pages/Contacts';
+import Analytics from './Pages/Analytics';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/dashboard' element={<DashBoard/>}/>
           <Route path='/campaign' element={<Campaign/>}/>
           <Route path="/contact" element={<Contacts/>} />
+          <Route path="/analytics" element={<Analytics/>} />
         </Routes>
       </Router>
     </div>

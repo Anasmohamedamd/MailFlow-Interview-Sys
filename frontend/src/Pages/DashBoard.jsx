@@ -56,7 +56,7 @@ const DashBoard = () => {
                     <div className='card-body'>
                         <h5 className='card-title'>Analytics</h5>
                         <p className='card-text'>Track opens, clicks, and performance</p>
-                        <button className='btn btn-primary w-100'>Go</button>
+                        <button className='btn btn-primary w-100' onClick={() => navigate('/analytics')}>Go</button>
                     </div>
                 </div>
             </div>

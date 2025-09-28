@@ -2,10 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require("cors");
 require('dotenv').config();
- const authRoutes = require('./Routes/authRoutes');
- const campaignRoutes = require('./Routes/campaignRoutes');
- const contactRoutes = require('./Routes/contactRoutes');
- const auth = require('./MiddleWare/authMiddleware');
+const authRoutes = require('./Routes/authRoutes');
+const campaignRoutes = require('./Routes/campaignRoutes');
+const contactRoutes = require('./Routes/contactRoutes');
+const auth = require('./MiddleWare/authMiddleware');
+const analyticalRoutes = require('./Routes/analyticalRoutes');
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use('/api/auth',authRoutes);
 app.use('/api/campaign',auth,campaignRoutes);
 app.use('/api/contact',contactRoutes);
+app.use('/api/analytics',analyticalRoutes);
 
 
 mongoose.connect(process.env.MONGO_URI) .then(()=>{console.log("MongoDB Connected")})
