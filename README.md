@@ -32,7 +32,7 @@ MailFlow is a web-based system for creating, managing, and sending email campaig
 **Email Service:**
 * SendGrid
 
-### WorkFlow
+## WorkFlow
 * User creates a campaign with a title and message.
 * Selects recipients from contacts or registered users.
 * Sends the campaign via SendGrid.
@@ -48,61 +48,62 @@ MailFlow is a web-based system for creating, managing, and sending email campaig
 
 
 ## Installation Setup
-1.Clone the repository:
+**1.Clone the repository:**
 
-git clone https://github.com/Anasmohamedamd/MailFlow-Interview-Sys.git
-cd MailFlow-Interview-Sys
+* git clone https://github.com/Anasmohamedamd/MailFlow-Interview-Sys.git
+* cd MailFlow-Interview-Sys
 
-2.Install backend dependencies:
+**2.Install backend dependencies:**
 
-cd backend
-npm install
+* cd backend
+* npm install
 
-3.Install frontend dependencies:
+**3.Install frontend dependencies:**
 
-cd frontend
-npm install
+* cd frontend
+* npm install
 
-4.start backend server:
+**4.start backend server:**
 
-cd backend
-npm run dev
+* cd backend
+* npm run dev
 
-5.start frontend server:
-cd frontend
-npm start
+**5.start frontend server:**
+
+* cd frontend
+* npm start
 
 ## API Endpoints
 
-Authenciation:
+**Authenciation:**
 
--POST /auth/register - Create a register
--POST /auth/login - Create a login
--GET  /auth/users - Get users 
--GET  /auth/users/:id - Get a user by ID
--PUT  /auth/users/:id - Update a user by ID 
--DELETE  /auth/users/:id - Delete a user ID
+* POST /auth/register - Create a register
+* POST /auth/login - Create a login
+* GET  /auth/users - Get users 
+* GET  /auth/users/:id - Get a user by ID
+* PUT  /auth/users/:id - Update a user by ID 
+* DELETE  /auth/users/:id - Delete a user ID
 
 
-Campaign
+**Campaign:**
 
--POST /campaign/create – Create a new campaign
--GET /campaign/read – Get all campaigns for logged-in user
--PUT /campaign/update/:id – Update campaign by ID
--DELETE /campaign/delete/:id – Delete campaign by ID
--POST /campaign/send/:id – Send campaign emails
+* POST /campaign/create – Create a new campaign
+* GET /campaign/read – Get all campaigns for logged-in user
+* PUT /campaign/update/:id – Update campaign by ID
+* DELETE /campaign/delete/:id – Delete campaign by ID
+* POST /campaign/send/:id – Send campaign emails
 
-Contacts
+**Contacts:**
 
--POST /contact/create – Create contact
--GET /contact/read – Get all contacts
--PUT /contact/update/:id – Update contact
--DELETE /contact/delete/:id – Delete contact
+* POST /contact/create – Create contact
+* GET /contact/read – Get all contacts
+* PUT /contact/update/:id – Update contact
+* DELETE /contact/delete/:id – Delete contact
 
-Analytics
+**Analytics:**
 
--GET /analytics/read – Get all campaign analytics for logged-in user
--GET /analytics/:campaignId – Get analytics for a specific campaign
--GET /analytics/open/:campaignId – Track email open
--GET /analytics/click/:campaignId – Track email click
+* GET /analytics/read – Get all campaign analytics for logged-in user
+* GET /analytics/:campaignId – Get analytics for a specific campaign
+* GET /analytics/open/:campaignId – Track email open
+* GET /analytics/click/:campaignId – Track email click
 
