@@ -24,6 +24,8 @@ MailFlow is a web-based system for creating, managing, and sending email campaig
 **Backend:**
 * Node.js/Express.js
 * JWT Authenciation
+* Bcrypt for hashing password
+* Cors
 
 **Database:**
 * Mongoose for models
