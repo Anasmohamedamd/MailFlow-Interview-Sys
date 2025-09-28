@@ -49,6 +49,7 @@ MailFlow is a web-based system for creating, managing, and sending email campaig
 
 ## Attached Screenshots
 **1.Dashboard**
+<img width="1920" height="875" alt="image" src="https://github.com/user-attachments/assets/5ab81746-ba6c-4437-a5e7-2a3e2d71a020" />
 
 **2.Campaign**
 
