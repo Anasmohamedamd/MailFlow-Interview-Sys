@@ -10,10 +10,9 @@ const NavigationBar = () => {
             <Navbar.Toggle aria-controls='basic-navbar-nav'/>
                 <Navbar.Collapse id='basic-navbar-nav'>
                     <Nav className='ms-auto align-items-center'>
-                        <Nav.Link href='/'>Home</Nav.Link>
-                        <Nav.Link href='/auth'>Login/Register</Nav.Link>
-                        <Nav.Link href='/dashboard'>DashBoard</Nav.Link>
-                        <Nav.Link href='/logout'>LogOut</Nav.Link>
+                        <Nav.Link href='/' style={{color:'white'}}>Home</Nav.Link>
+                        <Nav.Link href='/auth' style={{color:'white'}}>Login/Register</Nav.Link>
+                        <Nav.Link href='/dashboard' style={{color:'white'}}>DashBoard</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
         </Container>

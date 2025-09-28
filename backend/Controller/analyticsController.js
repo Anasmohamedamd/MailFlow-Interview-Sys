@@ -1,7 +1,7 @@
 const Analytics = require('../Model/Analytics');
 const mongoose = require('mongoose');
 
-//track email open
+//track email opening
 exports.trackOpen = async(req,res) => {
     try {
         const{campaignId} = req.params;
