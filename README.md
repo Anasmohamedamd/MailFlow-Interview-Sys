@@ -48,6 +48,13 @@ MailFlow is a web-based system for creating, managing, and sending email campaig
 * Prevents duplicate emails and tracks failed deliveries.
 
 ## Attached Screenshots
+**1.Dashboard**
+
+**2.Campaign**
+
+**3.Contact**
+
+**4.Analytics**
 
 
 ## Installation Setup
