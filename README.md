@@ -3,6 +3,8 @@
 ### Overview
 MailFlow is a web-based system for creating, managing, and sending email campaigns. It helps users reach multiple recipients, track email performance, and analyze engagement with real-time analytics.
 
+https://github.com/Anasmohamedamd/MailFlow-Interview-Sys/blob/phase-1/Anasmohamedamd-core-platform/Screenshot%20(300).png?raw=true
+
 ### Project URLs
 * Frontend :  http://localhost:3001
 * Backend API:  http://localhost:3000
