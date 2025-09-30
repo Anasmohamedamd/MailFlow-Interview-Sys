@@ -103,6 +103,20 @@ Phase 2 enhances MailFlow with AI-powered features for content generation, subje
 * Optimized Send Time: Analyzes past campaign data to recommend the best time to send emails for higher engagement.
 * Data-Driven Decisions: AI-generated A/B test variations help determine the most effective content.
 
+## Attached Screenshots
+**1.Generate Content and Send Time**
+<img width="1920" height="880" alt="Screenshot (301)" src="https://github.com/user-attachments/assets/1bed93a1-5c7c-485e-aa73-288987018a5d" />
+
+**2.Suggest Subject Lines**
+<img width="1920" height="873" alt="Screenshot (302)" src="https://github.com/user-attachments/assets/b299c88f-11e6-477f-88fe-3b5908389e5c" />
+
+**3.Personalization**
+<img width="1898" height="708" alt="Screenshot (303)" src="https://github.com/user-attachments/assets/9b18075c-2eaf-43e3-8016-10ff9c76f494" />
+
+**4.A/B Test**
+<img width="1893" height="880" alt="Screenshot (304)" src="https://github.com/user-attachments/assets/956986b1-4c2c-4e9e-954c-6145cd16035a" />
+
+
 ## Installation Setup
 **1.Clone the repository:**
 
