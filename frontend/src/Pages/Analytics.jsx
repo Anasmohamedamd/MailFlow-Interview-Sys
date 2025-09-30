@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../axiosInstance';
+import {axiosBackend} from '../axiosInstance';
 import {LineChart,Line,BarChart,Bar,XAxis,YAxis,Tooltip,Legend,CartesianGrid,ResponsiveContainer} from 'recharts';
 
 const Analytics = () => {
@@ -10,7 +10,7 @@ const Analytics = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await axiosInstance.get("/analytics/read"); // all campaigns for user
+        const res = await axiosBackend.get("/analytics/read"); // all campaigns for user
         setAnalytics(res.data);
       } catch (err) {
         setError(err.response?.data?.msg || "Error fetching analytics");

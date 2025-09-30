@@ -1,11 +1,16 @@
  import axios from "axios";
 
- const axiosInstance = axios.create({
+ const axiosBackend = axios.create({
    baseURL:  process.env.REACT_APP_API_URL,
  });
 
+ // AI service API
+ const axiosAI = axios.create({
+  baseURL: process.env.REACT_APP_AI_URL, 
+});
+
 // Add token automatically
- axiosInstance.interceptors.request.use((config) => {
+ axiosBackend.interceptors.request.use((config) => {
    const token = localStorage.getItem("token");
    if (token) {
      config.headers.Authorization = `Bearer ${token}`;
@@ -16,28 +21,8 @@
    return config;
  });
 
-// axiosInstance.js
-// import axios from "axios";
-
-// const axiosInstance = axios.create({
-//   baseURL: process.env.REACT_APP_API_URL, 
-// });
-
-// // Attach token automatically
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
 
 
 
-export default axiosInstance;
+export {axiosBackend,axiosAI};
 

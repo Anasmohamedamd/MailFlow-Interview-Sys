@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../axiosInstance";
+import {axiosBackend} from "../axiosInstance";
 
 const Contacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -11,7 +11,7 @@ const Contacts = () => {
 
   const fetchContacts = async () => {
     try {
-      const res = await axiosInstance.get("/contact/read");
+      const res = await axiosBackend.get("/contact/read");
       setContacts(res.data);
     } catch (error) {
       console.error("Error fetching contacts", error);
@@ -23,7 +23,7 @@ const Contacts = () => {
     if (!newContact.name.trim() || !newContact.email.trim()) return;
 
     try {
-      const res = await axiosInstance.post("/contact/create", {
+      const res = await axiosBackend.post("/contact/create", {
         name: newContact.name.trim(),
         email: newContact.email.trim(),
       });
@@ -36,7 +36,7 @@ const Contacts = () => {
 
   const deleteContact = async (id) => {
     try {
-      await axiosInstance.delete(`/contact/${id}`);
+      await axiosBackend.delete(`/contact/${id}`);
       setContacts(contacts.filter((c) => c._id !== id));
     } catch (error) {
       console.error("Error deleting contact", error);
