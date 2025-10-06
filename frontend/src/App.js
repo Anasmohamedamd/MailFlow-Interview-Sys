@@ -7,6 +7,7 @@ import Home from './Pages/Home';
 import Campaign from './Pages/Campaign';
 import Contacts from './Pages/Contacts';
 import Analytics from './Pages/Analytics';
+import DemoPage from './Pages/DemoPage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/campaign' element={<Campaign/>}/>
           <Route path="/contact" element={<Contacts/>} />
           <Route path="/analytics" element={<Analytics/>} />
+          <Route path='/demo' element={<DemoPage/>} />
         </Routes>
       </Router>
     </div>

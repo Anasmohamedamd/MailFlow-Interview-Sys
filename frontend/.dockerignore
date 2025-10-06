@@ -1,0 +1,14 @@
+# Node modules (installed inside Docker)
+node_modules
+npm-debug.log
+
+# Git files
+.git
+.gitignore
+
+
+# Build output (Docker will create its own build)
+build
+
+# Misc
+.DS_Store

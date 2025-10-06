@@ -17,6 +17,6 @@ mongoose.connect(process.env.MONGO_URI) .then(()=>{console.log("MongoDB Connecte
 
 const PORT = process.env.PORT;
 
-app.listen(PORT,() => {
+app.listen(PORT,"0.0.0.0",() => {
     console.log(`AI service running on ${PORT}`);
 })

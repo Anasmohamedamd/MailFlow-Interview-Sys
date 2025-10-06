@@ -1,0 +1,62 @@
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - mailflow-network
+
+  backend:
+    build: ./backend
+    container_name: backend
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+    networks:
+      - mailflow-network
+
+  ai-service:
+    build: ./ai-service
+    container_name: ai-service
+    restart: unless-stopped
+    env_file:
+      - ./ai-service/.env
+    ports:
+      - "5002:5002"
+    networks:
+      - mailflow-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: http://backend:3000
+        REACT_APP_AI_URL: http://ai-service:5002
+    container_name: frontend
+    restart: unless-stopped
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "3001:80"
+    depends_on:
+      - backend
+      - ai-service
+    networks:
+      - mailflow-network
+
+volumes:
+  mongo-data:
+
+networks:
+  mailflow-network:
+    driver: bridge

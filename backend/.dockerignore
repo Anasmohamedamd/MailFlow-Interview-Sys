@@ -1,0 +1,9 @@
+# Node modules (installed inside Docker)
+node_modules
+npm-debug.log
+
+# Git files
+.git
+.gitignore
+
+

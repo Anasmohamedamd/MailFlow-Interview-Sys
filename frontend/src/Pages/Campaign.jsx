@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { axiosBackend, axiosAI } from "../axiosInstance";
 
 const Campaign = () => {
+  const tokenFromLogin = localStorage.getItem("token");
   const [campaigns, setCampaigns] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [formData, setFormData] = useState({ title: "", message: "" });
@@ -22,25 +23,28 @@ const Campaign = () => {
   const fetchCampaigns = async () => {
     try {
       const res = await axiosBackend.get("/campaign/read");
-      setCampaigns(res.data);
+      const data = Array.isArray(res.data) ? res.data : res.data.campaigns || [];
+      setCampaigns(data);
     } catch (error) {
       console.error("Error fetching campaigns", error);
+      setCampaigns([]);
     }
   };
 
   const fetchContacts = async () => {
     try {
       const res = await axiosBackend.get("/contact/read");
-      setContacts(res.data);
+      const data = Array.isArray(res.data) ? res.data : res.data.contacts || [];
+      setContacts(data);
     } catch (error) {
       console.error("Error fetching contacts", error);
+      setContacts([]);
     }
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    // Clear previous AI outputs
-    if(e.target.name === "title") setSendTimeSuggestion("");
+    if (e.target.name === "title") setSendTimeSuggestion("");
     setSubjectLines([]);
     setPersonalizedEmail("");
     setABTestVariations([]);
@@ -74,7 +78,7 @@ const Campaign = () => {
   };
 
   const handleEdit = (c) => {
-    setFormData({ title: c.title, message: c.message });
+    setFormData({ title: c.title || "", message: c.message || "" });
     setEditingId(c._id);
   };
 
@@ -96,10 +100,11 @@ const Campaign = () => {
       const res = await axiosAI.post("/generate-email", {
         prompt: formData.title || "Marketing campaign",
       });
-      setFormData({ ...formData, message: res.data.content });
+      setFormData({ ...formData, message: res.data.content || "" });
     } catch (error) {
       console.error("Error generating content", error);
       alert("Failed to generate email content.");
+      console.log("AI Base URL:", process.env.REACT_APP_AI_URL);
     } finally {
       setLoadingAI(false);
     }
@@ -111,10 +116,11 @@ const Campaign = () => {
       const res = await axiosAI.post("/subject-lines", {
         prompt: formData.message || "Email Campaign",
       });
-      setSubjectLines(res.data.subjectLines);
+      const lines = Array.isArray(res.data.subjectLines) ? res.data.subjectLines : [];
+      setSubjectLines(lines);
     } catch (error) {
       console.error("Error suggesting subject lines", error);
-      setSubjectLines(["Failed to suggest subject lines."]);
+      setSubjectLines([]);
     } finally {
       setLoadingAI(false);
     }
@@ -124,49 +130,44 @@ const Campaign = () => {
     setLoadingAI(true);
     try {
       const res = await axiosAI.post("/personalize", {
-        content: formData.message,
+        content: formData.message || "",
         firstName: "John",
         company: "TechCorp",
       });
-      setPersonalizedEmail(res.data.personalized);
-      setFormData({ ...formData, message: res.data.personalized });
+      const personalized = res.data.personalized || "";
+      setPersonalizedEmail(personalized);
+      setFormData({ ...formData, message: personalized });
     } catch (error) {
       console.error("Error personalizing email", error);
-      setPersonalizedEmail("Failed to personalize email.");
+      setPersonalizedEmail("");
     } finally {
       setLoadingAI(false);
     }
   };
 
   const suggestSendTime = async () => {
-  setLoadingAI(true);
-  try {
-    const token = localStorage.getItem("token"); 
-    if (!token) {
-      alert("User not logged in.");
-      setLoadingAI(false);
-      return;
-    }
-
-    const res = await axiosAI.post(
-      "/suggest-send-time",
-      {}, // no body needed, backend uses JWT
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    setLoadingAI(true);
+    try {
+      if (!tokenFromLogin) {
+        alert("User not logged in.");
+        setLoadingAI(false);
+        return;
       }
-    );
 
-    setSendTimeSuggestion(res.data.suggestion);
-  } catch (error) {
-    console.error("Error suggesting send time", error);
-    alert("Failed to suggest send time.");
-  } finally {
-    setLoadingAI(false);
-  }
-};
+      const res = await axiosAI.post(
+        "/suggest-send-time",
+        {},
+        { headers: { Authorization: `Bearer ${tokenFromLogin}` } }
+      );
 
+      setSendTimeSuggestion(res.data.suggestion || "");
+    } catch (error) {
+      console.error("Error suggesting send time", error);
+      setSendTimeSuggestion("");
+    } finally {
+      setLoadingAI(false);
+    }
+  };
 
   const runABTest = async () => {
     setLoadingAI(true);
@@ -174,16 +175,16 @@ const Campaign = () => {
       const res = await axiosAI.post("/run-ab-test", {
         prompt: formData.message || "Default email message",
       });
-      setABTestVariations(res.data.variations);
+      const variations = Array.isArray(res.data.variations) ? res.data.variations : [];
+      setABTestVariations(variations);
     } catch (error) {
       console.error("Error running A/B Test", error);
-      setABTestVariations(["Failed to run A/B Test."]);
+      setABTestVariations([]);
     } finally {
       setLoadingAI(false);
     }
   };
 
-  
   return (
     <div className="container mt-5">
       <h3 className="fw-bold text-center text-primary mb-5">📢 Campaigns</h3>
@@ -191,7 +192,7 @@ const Campaign = () => {
       {/* Contacts */}
       <div className="card p-4 shadow-sm mb-5">
         <h5 className="mb-3">👥 Contacts:</h5>
-        {contacts.length > 0 ? (
+        {Array.isArray(contacts) && contacts.length > 0 ? (
           <ul className="list-unstyled ms-3">
             {contacts.map((c) => (
               <li key={c._id} className="mb-2">
@@ -235,33 +236,33 @@ const Campaign = () => {
           {/* AI Buttons */}
           <div className="d-flex flex-wrap gap-3 mb-4">
             <button type="button" className="btn btn-secondary" onClick={generateEmailContent} disabled={loadingAI}>
-               Generate Content
+              Generate Content
             </button>
             <button type="button" className="btn btn-info" onClick={suggestSubjectLines} disabled={loadingAI}>
-               Suggest Subject Lines
+              Suggest Subject Lines
             </button>
             <button type="button" className="btn btn-success" onClick={personalizeEmail} disabled={loadingAI}>
-               Personalize Email
+              Personalize Email
             </button>
             <button type="button" className="btn btn-primary" onClick={suggestSendTime} disabled={loadingAI}>
-               Suggest Send Time
+              Suggest Send Time
             </button>
             <button type="button" className="btn btn-dark" onClick={runABTest} disabled={loadingAI}>
-               Run A/B Test
+              Run A/B Test
             </button>
           </div>
 
           {/* AI Results */}
           <div className="mb-4">
             {sendTimeSuggestion && <div className="alert alert-info">{sendTimeSuggestion}</div>}
-            {subjectLines.length > 0 && (
+            {Array.isArray(subjectLines) && subjectLines.length > 0 && (
               <div className="alert alert-warning">
                 <strong>Subject Lines:</strong>
                 <ul className="mb-0">{subjectLines.map((line, idx) => <li key={idx}>{line}</li>)}</ul>
               </div>
             )}
             {personalizedEmail && <div className="alert alert-success"><strong>Personalized Email:</strong> <p>{personalizedEmail}</p></div>}
-            {abTestVariations.length > 0 && (
+            {Array.isArray(abTestVariations) && abTestVariations.length > 0 && (
               <div className="alert alert-dark">
                 <strong>A/B Test Variations:</strong>
                 <ul className="mb-0">{abTestVariations.map((v, idx) => <li key={idx}>{v}</li>)}</ul>
@@ -275,25 +276,28 @@ const Campaign = () => {
 
       {/* Campaign List */}
       <div className="row g-4">
-        {campaigns.map((c) => (
-          <div className="col-md-6" key={c._id}>
-            <div className="card shadow-sm h-100">
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title fw-bold">{c.title}</h5>
-                <p className="card-text flex-grow-1">{c.message}</p>
-                <div className="d-flex gap-2 mt-3">
-                  <button className="btn btn-warning" onClick={() => handleEdit(c)}> Edit</button>
-                  <button className="btn btn-danger" onClick={() => handleDelete(c._id)}> Delete</button>
-                  <button className="btn btn-success" onClick={() => handleSend(c._id)} disabled={contacts.length === 0}> Send</button>
+        {Array.isArray(campaigns) && campaigns.length > 0 ? (
+          campaigns.map((c) => (
+            <div className="col-md-6" key={c._id}>
+              <div className="card shadow-sm h-100">
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title fw-bold">{c.title}</h5>
+                  <p className="card-text flex-grow-1">{c.message}</p>
+                  <div className="d-flex gap-2 mt-3">
+                    <button className="btn btn-warning" onClick={() => handleEdit(c)}> Edit</button>
+                    <button className="btn btn-danger" onClick={() => handleDelete(c._id)}> Delete</button>
+                    <button className="btn btn-success" onClick={() => handleSend(c._id)} disabled={contacts.length === 0}> Send</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <p className="text-muted">No campaigns available.</p>
+        )}
       </div>
     </div>
   );
 };
 
 export default Campaign;
-
