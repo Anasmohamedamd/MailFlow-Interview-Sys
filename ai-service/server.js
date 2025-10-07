@@ -15,6 +15,11 @@ mongoose.connect(process.env.MONGO_URI) .then(()=>{console.log("MongoDB Connecte
     console.log("Error",err);
 });
 
+app.get("/", (req, res) => {
+  res.send("MailFlow Backend is Running ✅");
+});
+
+
 const PORT = process.env.PORT;
 
 app.listen(PORT,"0.0.0.0",() => {
